@@ -7,12 +7,22 @@ from torchvision import transforms
 from efficientnet_pytorch import EfficientNet
 import numpy as np
 import cv2
+import gdown, os
 
 # --- SETTINGS ---
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Change these paths when you upload to GitHub/Streamlit
+# --- Download models from Google Drive if not exists ---
+if not os.path.exists("yolov8Vx_best.pt"):
+    url = "https://drive.google.com/uc?id=11VpB8VWey2BBeKr13oKMLYLqsmYuQcRx"
+    gdown.download(url, "yolov8Vx_best.pt", quiet=False)
+
+if not os.path.exists("efficientnet_final_earlystop.pth"):
+    url = "https://drive.google.com/uc?id=1mtQHLXjT5bXdh_9bf3a3OlaFhdGxlywJ"
+    gdown.download(url, "efficientnet_final_earlystop.pth", quiet=False)
+
+# Model paths (downloaded above)
 yolo_model_path = "yolov8Vx_best.pt"
 cnn_model_path = "efficientnet_final_earlystop.pth"
 

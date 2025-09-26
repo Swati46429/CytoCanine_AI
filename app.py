@@ -7,7 +7,8 @@ from torchvision import transforms
 from efficientnet_pytorch import EfficientNet
 import numpy as np
 import cv2
-import gdown, os
+import os
+from huggingface_hub import hf_hub_download
 
 # --- SETTINGS ---
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
@@ -15,17 +16,22 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # --- Download models from Hugging Face if not exists ---
 if not os.path.exists("yolov8Vx_best.pt"):
-    url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/yolov8Vx_best.pt"
-    gdown.download(url, "yolov8Vx_best.pt", quiet=False)
+    yolo_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="yolov8Vx_best.pt"
+    )
+else:
+    yolo_model_path = "yolov8Vx_best.pt"
 
 if not os.path.exists("efficientnet_final_earlystop.pth"):
-    url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/efficientnet_final_earlystop.pth"
-    gdown.download(url, "efficientnet_final_earlystop.pth", quiet=False)
+    cnn_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="efficientnet_final_earlystop.pth"
+    )
+else:
+    cnn_model_path = "efficientnet_final_earlystop.pth"
 
-# Model paths
-yolo_model_path = "yolov8Vx_best.pt"
-cnn_model_path = "efficientnet_final_earlystop.pth"
-
+# --- MODEL PARAMETERS ---
 min_required_patches = 5
 lymphoma_threshold = 0.7
 yolo_override_threshold = 5
@@ -34,13 +40,16 @@ cnn_conf_threshold = 0.50
 # --- LOAD MODELS ---
 @st.cache_resource
 def load_models():
+    # YOLO
     yolo_model = YOLO(yolo_model_path)
 
+    # EfficientNet
     cnn_model = EfficientNet.from_name("efficientnet-b2")
     cnn_model._fc = torch.nn.Linear(cnn_model._fc.in_features, len(class_names))
     cnn_model.load_state_dict(torch.load(cnn_model_path, map_location=device))
     cnn_model.eval().to(device)
 
+    # Image transform
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -51,7 +60,7 @@ def load_models():
 
 yolo_model, cnn_model, transform = load_models()
 
-# --- PREDICT FUNCTION ---
+# --- PREDICTION FUNCTION ---
 def predict(image):
     img_bgr = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     results = yolo_model(img_bgr)[0]

@@ -1,6 +1,6 @@
 streamlit==1.36.0
 torch==2.5.1
-torchvision==0.20.1
+torchvision==0.23.0
 ultralytics==8.2.34
 efficientnet_pytorch==0.7.1
 pillow==10.3.0

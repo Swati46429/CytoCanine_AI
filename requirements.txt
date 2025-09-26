@@ -6,3 +6,5 @@ pillow
 opencv-python-headless
 streamlit
 requests
+gdown
+numpy

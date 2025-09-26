@@ -6,5 +6,5 @@ pillow
 opencv-python-headless
 streamlit
 requests
-gdown
 numpy
+huggingface_hub

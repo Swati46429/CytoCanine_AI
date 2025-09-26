@@ -10,7 +10,7 @@ torchaudio==2.1.0
 ultralytics==8.0.230
 
 # Image processing
-Pillow==10.1.0
+Pillow==9.5.0
 opencv-python==4.8.1.78
 
 # Numerical and data processing

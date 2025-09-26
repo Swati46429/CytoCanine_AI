@@ -42,6 +42,10 @@ cnn_conf_threshold = 0.50
 # --- LOAD MODELS ---
 @st.cache_resource(show_spinner=False)
 def load_models():
+    # Fix for PyTorch 2.8 unpickling YOLO model
+    from ultralytics.nn.tasks import DetectionModel
+    torch.serialization.add_safe_globals([DetectionModel])
+
     # YOLO
     yolo_model = YOLO(yolo_model_path)
 

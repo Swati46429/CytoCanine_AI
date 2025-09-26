@@ -7,22 +7,43 @@ from torchvision import transforms
 from efficientnet_pytorch import EfficientNet
 import numpy as np
 import cv2
-import gdown, os
+import requests, os
 
 # --- SETTINGS ---
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # --- Download models from Google Drive if not exists ---
+def download_from_google_drive(file_id, destination):
+    URL = "https://drive.google.com/uc?export=download"
+    session = requests.Session()
+
+    response = session.get(URL, params={'id': file_id}, stream=True)
+    token = None
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            token = value
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = session.get(URL, params=params, stream=True)
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(32768):
+            if chunk:
+                f.write(chunk)
+
+# File IDs from your links
+yolo_id = "11VpB8VWey2BBeKr13oKMLYLqsmYuQcRx"
+cnn_id = "1mtQHLXjT5bXdh_9bf3a3OlaFhdGxlywJ"
+
+# Download if not exists
 if not os.path.exists("yolov8Vx_best.pt"):
-    url = "https://drive.google.com/uc?id=11VpB8VWey2BBeKr13oKMLYLqsmYuQcRx"
-    gdown.download(url, "yolov8Vx_best.pt", quiet=False)
-
+    download_from_google_drive(yolo_id, "yolov8Vx_best.pt")
 if not os.path.exists("efficientnet_final_earlystop.pth"):
-    url = "https://drive.google.com/uc?id=1mtQHLXjT5bXdh_9bf3a3OlaFhdGxlywJ"
-    gdown.download(url, "efficientnet_final_earlystop.pth", quiet=False)
+    download_from_google_drive(cnn_id, "efficientnet_final_earlystop.pth")
 
-# Model paths (downloaded above)
+# Model paths
 yolo_model_path = "yolov8Vx_best.pt"
 cnn_model_path = "efficientnet_final_earlystop.pth"
 

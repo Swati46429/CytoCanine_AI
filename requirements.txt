@@ -17,8 +17,8 @@ opencv-python==4.8.1.78
 numpy==1.26.4
 pandas==2.1.1
 
-# Rich logging
-rich==14.1.0
+# Rich logging (compatible with Streamlit 1.27.0)
+rich==13.3.4
 markdown-it-py==4.0.0
 mdurl==0.1.2
 pygments==2.19.2

@@ -14,11 +14,13 @@ import requests
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# --- Download models from Hugging Face if not exists ---
+# --- MODEL DOWNLOAD URLS ---
 yolo_url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/yolov8Vx_best.pt"
 cnn_url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/efficientnet_final_earlystop.pth"
 
+# --- DOWNLOAD MODELS IF NOT EXISTS ---
 if not os.path.exists("yolov8Vx_best.pt"):
+    st.info("Downloading YOLOv8 model…")
     with requests.get(yolo_url, stream=True) as r:
         r.raise_for_status()
         with open("yolov8Vx_best.pt", "wb") as f:
@@ -26,13 +28,13 @@ if not os.path.exists("yolov8Vx_best.pt"):
                 f.write(chunk)
 
 if not os.path.exists("efficientnet_final_earlystop.pth"):
+    st.info("Downloading EfficientNet model…")
     with requests.get(cnn_url, stream=True) as r:
         r.raise_for_status()
         with open("efficientnet_final_earlystop.pth", "wb") as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
 
-# Model paths
 yolo_model_path = "yolov8Vx_best.pt"
 cnn_model_path = "efficientnet_final_earlystop.pth"
 
@@ -45,16 +47,13 @@ cnn_conf_threshold = 0.50
 # --- LOAD MODELS ---
 @st.cache_resource
 def load_models():
-    # YOLO
     yolo_model = YOLO(yolo_model_path)
-
-    # EfficientNet
+    
     cnn_model = EfficientNet.from_name("efficientnet-b2")
     cnn_model._fc = torch.nn.Linear(cnn_model._fc.in_features, len(class_names))
     cnn_model.load_state_dict(torch.load(cnn_model_path, map_location=device))
     cnn_model.eval().to(device)
 
-    # Image transform
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),

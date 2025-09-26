@@ -1,7 +1,7 @@
 streamlit==1.27.0
-torch==2.1.0
+torch==2.8.0
 torchvision==0.16.1
-torchaudio==2.1.0
+torchaudio==2.8.0
 ultralytics==8.0.230
 Pillow==9.5.0
 opencv-python==4.8.1.78

@@ -14,11 +14,12 @@ from huggingface_hub import hf_hub_download
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# --- Download models from Hugging Face if not exists ---
+# --- Download models from Hugging Face dataset if not exists ---
 if not os.path.exists("yolov8Vx_best.pt"):
     yolo_model_path = hf_hub_download(
         repo_id="DeepBioSwati/cytocanine_models",
-        filename="yolov8Vx_best.pt"
+        filename="yolov8Vx_best.pt",
+        repo_type="dataset"
     )
 else:
     yolo_model_path = "yolov8Vx_best.pt"
@@ -26,7 +27,8 @@ else:
 if not os.path.exists("efficientnet_final_earlystop.pth"):
     cnn_model_path = hf_hub_download(
         repo_id="DeepBioSwati/cytocanine_models",
-        filename="efficientnet_final_earlystop.pth"
+        filename="efficientnet_final_earlystop.pth",
+        repo_type="dataset"
     )
 else:
     cnn_model_path = "efficientnet_final_earlystop.pth"
@@ -38,7 +40,7 @@ yolo_override_threshold = 5
 cnn_conf_threshold = 0.50
 
 # --- LOAD MODELS ---
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def load_models():
     # YOLO
     yolo_model = YOLO(yolo_model_path)
@@ -158,4 +160,4 @@ if uploaded_file is not None:
     st.success(final_prediction)
 
     st.subheader("Patch-wise Predictions")
-    st.json(patch_json) 
+    st.json(patch_json)

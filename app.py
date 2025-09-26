@@ -8,33 +8,28 @@ from efficientnet_pytorch import EfficientNet
 import numpy as np
 import cv2
 import os
-import requests
+from huggingface_hub import hf_hub_download
 
 # --- SETTINGS ---
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # --- Download models from Hugging Face if not exists ---
-yolo_url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/yolov8Vx_best.pt"
-cnn_url = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/efficientnet_final_earlystop.pth"
-
 if not os.path.exists("yolov8Vx_best.pt"):
-    with requests.get(yolo_url, stream=True) as r:
-        r.raise_for_status()
-        with open("yolov8Vx_best.pt", "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
+    yolo_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="yolov8Vx_best.pt"
+    )
+else:
+    yolo_model_path = "yolov8Vx_best.pt"
 
 if not os.path.exists("efficientnet_final_earlystop.pth"):
-    with requests.get(cnn_url, stream=True) as r:
-        r.raise_for_status()
-        with open("efficientnet_final_earlystop.pth", "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
-
-# Model paths
-yolo_model_path = "yolov8Vx_best.pt"
-cnn_model_path = "efficientnet_final_earlystop.pth"
+    cnn_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="efficientnet_final_earlystop.pth"
+    )
+else:
+    cnn_model_path = "efficientnet_final_earlystop.pth"
 
 # --- MODEL PARAMETERS ---
 min_required_patches = 5

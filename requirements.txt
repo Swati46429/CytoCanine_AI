@@ -1,6 +1,6 @@
-ultralytics==8.0.230
-torch==2.1.0
-torchvision==0.17.1
+ultralytics==8.0.352
+torch==2.8.0
+torchvision==0.18.1
 efficientnet_pytorch==0.7.1
 Pillow==10.0.0
 opencv-python-headless==4.8.1.78

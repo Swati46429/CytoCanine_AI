@@ -1,3 +1,4 @@
+# app.py
 import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
@@ -42,9 +43,10 @@ cnn_conf_threshold = 0.50
 # --- LOAD MODELS ---
 @st.cache_resource(show_spinner=False)
 def load_models():
-    # Fix for PyTorch 2.8 unpickling YOLO model
+    # --- Allowlist YOLO and PyTorch globals for safe loading ---
     from ultralytics.nn.tasks import DetectionModel
-    torch.serialization.add_safe_globals([DetectionModel])
+    from torch.nn.modules.container import Sequential, ModuleList
+    torch.serialization.add_safe_globals([DetectionModel, Sequential, ModuleList])
 
     # YOLO
     yolo_model = YOLO(yolo_model_path)

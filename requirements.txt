@@ -1,27 +1,14 @@
-# Streamlit app
 streamlit==1.27.0
-
-# PyTorch and related
 torch==2.1.0
 torchvision==0.16.1
 torchaudio==2.1.0
-
-# YOLO / Computer Vision
 ultralytics==8.0.230
-
-# Image processing
 Pillow==9.5.0
 opencv-python==4.8.1.78
-
-# Numerical and data processing
 numpy==1.26.4
 pandas==2.1.1
-
-# Rich logging
-rich==13.3.4
+rich==14.1.0
 markdown-it-py==4.0.0
 mdurl==0.1.2
 pygments==2.19.2
-
-# Optional for EfficientNet
 efficientnet-pytorch==1.0.0

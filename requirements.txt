@@ -5,3 +5,4 @@ efficientnet_pytorch
 pillow
 opencv-python-headless
 streamlit
+gdown

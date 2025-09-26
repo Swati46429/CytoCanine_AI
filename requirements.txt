@@ -1,10 +1,27 @@
-ultralytics==8.0.352
-torch==2.8.0
-torchvision==0.18.1
-efficientnet_pytorch==0.7.1
-Pillow==10.0.0
-opencv-python-headless==4.8.1.78
-streamlit==1.28.0
-requests==2.31.0
-numpy==1.26.0
-huggingface_hub==1.29.0
+# Streamlit app
+streamlit==1.27.0
+
+# PyTorch and related libraries
+torch==2.1.0
+torchvision==0.16.1
+torchaudio==2.1.0
+
+# YOLO / Computer Vision
+ultralytics==8.0.230
+
+# Image processing
+Pillow==10.1.0
+opencv-python==4.8.1.78
+
+# Numerical and data processing
+numpy==1.26.4
+pandas==2.1.1
+
+# Rich logging
+rich==14.1.0
+markdown-it-py==4.0.0
+mdurl==0.1.2
+pygments==2.19.2
+
+# Optional for EfficientNet
+efficientnet-pytorch==1.0.0

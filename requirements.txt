@@ -1,7 +1,7 @@
 # Streamlit app
 streamlit==1.27.0
 
-# PyTorch and related libraries
+# PyTorch and related
 torch==2.1.0
 torchvision==0.16.1
 torchaudio==2.1.0
@@ -17,7 +17,7 @@ opencv-python==4.8.1.78
 numpy==1.26.4
 pandas==2.1.1
 
-# Rich logging (compatible with Streamlit 1.27.0)
+# Rich logging
 rich==13.3.4
 markdown-it-py==4.0.0
 mdurl==0.1.2

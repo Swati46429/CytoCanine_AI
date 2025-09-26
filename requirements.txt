@@ -7,3 +7,5 @@ opencv-python-headless
 streamlit
 requests
 numpy
+gdown
+huggingface_hub

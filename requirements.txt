@@ -5,7 +5,7 @@ torchaudio==2.8.0
 ultralytics==8.0.230
 Pillow==9.5.0
 opencv-python==4.8.1.78
-efficientnet-pytorch==1.0.0
+efficientnet-pytorch==0.7.1
 numpy==1.26.4
 pandas==2.1.1
 rich==13.3.2

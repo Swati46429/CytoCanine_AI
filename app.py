@@ -8,27 +8,28 @@ from efficientnet_pytorch import EfficientNet
 import numpy as np
 import cv2
 import os
-import requests
+from huggingface_hub import hf_hub_download
 
 # --- SETTINGS ---
 class_names = ['Histiocytoma', 'Lymphoma', 'Mast_cell', 'Negative', 'TVT']
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# --- Direct Hugging Face file links ---
-YOLO_URL = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/yolov8Vx_best.pt"
-CNN_URL = "https://huggingface.co/datasets/DeepBioSwati/cytocanine_models/resolve/main/efficientnet_final_earlystop.pth"
+# --- Download models from Hugging Face if not exists ---
+if not os.path.exists("yolov8Vx_best.pt"):
+    yolo_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="yolov8Vx_best.pt"
+    )
+else:
+    yolo_model_path = "yolov8Vx_best.pt"
 
-# --- Download if not exists ---
-def download_file(url, local_path):
-    if not os.path.exists(local_path):
-        st.write(f"📥 Downloading {local_path} ...")
-        r = requests.get(url)
-        with open(local_path, "wb") as f:
-            f.write(r.content)
-    return local_path
-
-yolo_model_path = download_file(YOLO_URL, "yolov8Vx_best.pt")
-cnn_model_path = download_file(CNN_URL, "efficientnet_final_earlystop.pth")
+if not os.path.exists("efficientnet_final_earlystop.pth"):
+    cnn_model_path = hf_hub_download(
+        repo_id="DeepBioSwati/cytocanine_models",
+        filename="efficientnet_final_earlystop.pth"
+    )
+else:
+    cnn_model_path = "efficientnet_final_earlystop.pth"
 
 # --- MODEL PARAMETERS ---
 min_required_patches = 5
@@ -62,22 +63,19 @@ yolo_model, cnn_model, transform = load_models()
 # --- PREDICTION FUNCTION ---
 def predict(image):
     img_bgr = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-    results = yolo_model(img_bgr)
-    res = results[0]
-
+    results = yolo_model(img_bgr)[0]
     yolo_class_counts = [0] * len(class_names)
     patch_predictions = []
     patch_count = 0
 
-    for box in res.boxes:
+    for box in results.boxes:
         x1, y1, x2, y2 = map(int, box.xyxy[0])
         crop = img_bgr[y1:y2, x1:x2]
         if crop.size == 0:
             continue
 
-        yolo_cls_idx = int(box.cls.item())
-        if yolo_cls_idx < len(class_names):  # avoid index errors
-            yolo_class_counts[yolo_cls_idx] += 1
+        yolo_cls_idx = int(box.cls[0])
+        yolo_class_counts[yolo_cls_idx] += 1
 
         crop_pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
         input_tensor = transform(crop_pil).unsqueeze(0).to(device)
@@ -93,7 +91,7 @@ def predict(image):
 
         cv2.rectangle(img_bgr, (x1, y1), (x2, y2), (0, 255, 0), 2)
         cv2.putText(img_bgr, f"{pred_class} {pred_conf:.2f}",
-                    (x1, max(0, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX,
+                    (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
                     0.6, (0, 255, 0), 2)
 
     # CNN aggregation
@@ -160,4 +158,4 @@ if uploaded_file is not None:
     st.success(final_prediction)
 
     st.subheader("Patch-wise Predictions")
-    st.json(patch_json)
+    st.json(patch_json) 

@@ -9,6 +9,6 @@ efficientnet-pytorch==0.7.1
 numpy==1.26.4
 pandas==2.1.1
 rich==13.3.2
-# markdown-it-py==4.0.0   <-- REMOVE THIS line
 mdurl==0.1.2
 pygments==2.19.2
+huggingface_hub==0.17.3

@@ -1,2 +1,2 @@
 # CytoCanine_AI
-YOLO + EfficientNet Tumor Detection &amp; Classification Web App for Canine Cytology Images
+Automated Detection and Classification of Canine Round Cell Tumors Using YOLOv8x and ConvNeXt-Tiny

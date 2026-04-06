@@ -1,1 +1,10 @@
+Model weights are not stored in this GitHub repository due to GitHub file size limitations.
 
+The trained models used in this study are available at:
+
+https://huggingface.co/DeepBioSwati/CytoCanine_AI_models
+
+Files included:
+
+- yolov8x_best.pt
+- convnext_tiny_final_earlystop.pth

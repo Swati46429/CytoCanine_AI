@@ -1,32 +1,3 @@
-"""
-CytoCanine AI
-Dataset Preparation Script
-
-This script prepares the CNN classification dataset from the YOLO
-object detection dataset by cropping tumor regions using bounding box
-annotations.
-
-Expected dataset structure:
-
-dataset/
-   train/
-      images/
-      labels/
-   valid/
-      images/
-      labels/
-   test/
-      images/
-      labels/
-
-Output:
-
-cropped_dataset/
-   train/
-   valid/
-   test/
-"""
-
 import os
 import cv2
 from tqdm import tqdm

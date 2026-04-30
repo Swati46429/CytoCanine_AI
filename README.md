@@ -282,7 +282,7 @@ If you use this work, please cite:
 
 ```bibtex
 @misc{CytoCanineAI_Dataset2025,
-  title={CytoCanine AI Dataset: YOLO-Based Detection and CNN-Based Classification of Canine Round Cell Tumors},
+  title={Computer Vision-Assisted Technology Microscopic Detection of Canine Round Cell Tumors in Dogs},
   author={DeepBioSwati},
   year={2025},
   howpublished={\url{https://www.kaggle.com/datasets/swatijaiswal46429/cytocanine-ai-dataset-yolo-cnn-cropped}},

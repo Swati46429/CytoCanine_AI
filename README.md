@@ -280,15 +280,15 @@ python app.py
 
 If you use this work, please cite:
 
+```bibtex
 @misc{CytoCanineAI_Dataset2025,
-  title={CytoCanine AI Dataset (YOLO + CNN Cropped)},
+  title={CytoCanine AI Dataset: YOLO-Based Detection and CNN-Based Classification of Canine Round Cell Tumors},
   author={DeepBioSwati},
   year={2025},
   howpublished={\url{https://www.kaggle.com/datasets/swatijaiswal46429/cytocanine-ai-dataset-yolo-cnn-cropped}},
-  note={Dataset for canine cytology image analysis}
+  note={Kaggle dataset for canine cytology image analysis}
 }
-
----
+```
 
 # License
 

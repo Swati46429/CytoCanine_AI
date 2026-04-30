@@ -30,7 +30,7 @@ The classification model predicts:
 * Lymphoma
 * Mast Cell Tumor
 * Transmissible Venereal Tumor (TVT)
-* Negative (non-round cell / normal)
+* Negative (non-round cell)
 
 ---
 

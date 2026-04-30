@@ -279,6 +279,7 @@ python app.py
 # Citation
 
 If you use this work, please cite:
+
 @misc{CytoCanineAI_Dataset2025,
   title={CytoCanine AI Dataset (YOLO + CNN Cropped)},
   author={DeepBioSwati},

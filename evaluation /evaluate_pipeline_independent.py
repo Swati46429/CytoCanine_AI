@@ -1,4 +1,3 @@
-```python
 """
 Evaluate full CytoCanine AI pipeline
 YOLOv8 detection + ConvNeXt classification

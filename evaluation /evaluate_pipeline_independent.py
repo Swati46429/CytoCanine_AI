@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 YOLO_MODEL_PATH = "models/yolov8Vx_best.pt"
 CNN_MODEL_PATH = "models/convnext_tiny_final_earlystop.pth"
 
-TEST_DIR = "datasets/independent_test"
+TEST_DIR = "independent_test"
 
 CLASS_NAMES = [
     "Histiocytoma",

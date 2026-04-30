@@ -30,7 +30,7 @@ The classification model predicts:
 * Lymphoma
 * Mast Cell Tumor
 * Transmissible Venereal Tumor (TVT)
-* Negative (non-round cell)
+* Negative (non-round cell tumor)
 
 ---
 
@@ -279,8 +279,13 @@ python app.py
 # Citation
 
 If you use this work, please cite:
-
-**CytoCanine AI: Computer Vision Technology-Assisted Microscopic Detection of Round Cell Tumors in Dogs**
+@misc{CytoCanineAI_Dataset2025,
+  title={CytoCanine AI Dataset (YOLO + CNN Cropped)},
+  author={DeepBioSwati},
+  year={2025},
+  howpublished={\url{https://www.kaggle.com/datasets/swatijaiswal46429/cytocanine-ai-dataset-yolo-cnn-cropped}},
+  note={Dataset for canine cytology image analysis}
+}
 
 ---
 
